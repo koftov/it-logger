@@ -1,17 +1,18 @@
-import React, { useRef } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { searchLogs } from '../../actions/logActions';
+import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { searchLogs } from "../../actions/logActions";
 
-const SearchBar = ({ searchLogs }) => {
-  const text = useRef('');
+const SearchBar = () => {
+  const dispatch = useDispatch();
 
-  const onChange = e => {
-    searchLogs(text.current.value);
+  const text = useRef("");
+
+  const onChange = (e) => {
+    dispatch(searchLogs(text.current.value));
   };
 
   return (
-    <nav style={{ marginBottom: '30px' }} className="blue">
+    <nav style={{ marginBottom: "30px" }} className="blue">
       <div className="nav-wrapper">
         <form>
           <div className="input-field">
@@ -33,8 +34,4 @@ const SearchBar = ({ searchLogs }) => {
   );
 };
 
-SearchBar.propTypes = {
-  searchLogs: PropTypes.func.isRequired
-};
-
-export default connect(null, { searchLogs })(SearchBar);
+export default SearchBar;
