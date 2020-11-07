@@ -1,74 +1,65 @@
+import axios from "axios";
 import {
   GET_TECHS,
   ADD_TECH,
   DELETE_TECH,
   SET_LOADING,
-  TECHS_ERROR
-} from './types';
+  TECHS_ERROR,
+} from "./types";
 
 // Get techs from server
-export const getTechs = () => async dispatch => {
+export const getTechs = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('/techs');
-    const data = await res.json();
+    const { data } = await axios("/techs");
 
     dispatch({
       type: GET_TECHS,
-      payload: data
+      payload: data,
     });
   } catch (err) {
     dispatch({
       type: TECHS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.statusText,
     });
   }
 };
 
 // Add tech to server
-export const addTech = tech => async dispatch => {
+export const addTech = (tech) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('/techs', {
-      method: 'POST',
-      body: JSON.stringify(tech),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
+    const { data } = await axios.post("/techs", tech);
 
     dispatch({
       type: ADD_TECH,
-      payload: data
+      payload: data,
     });
   } catch (err) {
     dispatch({
       type: TECHS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.statusText,
     });
   }
 };
 
 // Delete tech from server
-export const deleteTech = id => async dispatch => {
+export const deleteTech = (id) => async (dispatch) => {
   try {
     setLoading();
 
-    await fetch(`/techs/${id}`, {
-      method: 'DELETE'
-    });
+    await axios.delete(`/techs/${id}`);
 
     dispatch({
       type: DELETE_TECH,
-      payload: id
+      payload: id,
     });
   } catch (err) {
     dispatch({
       type: TECHS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.statusText,
     });
   }
 };
@@ -76,6 +67,6 @@ export const deleteTech = id => async dispatch => {
 // Set loading
 export const setLoading = () => {
   return {
-    type: SET_LOADING
+    type: SET_LOADING,
   };
 };
